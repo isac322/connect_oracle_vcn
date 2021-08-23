@@ -102,13 +102,6 @@ def _add_common_arguments(parser: argparse.ArgumentParser) -> None:
         default=config.DEFAULT_LOCATION,
     )
 
-    parser.add_argument(
-        '--verbose',
-        help='increase output verbosity',
-        action='store_true',
-        default=False,
-    )
-
 
 def _add_common_connect_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
