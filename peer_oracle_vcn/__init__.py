@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 
-from connect_oracle_vcn import commands, config, usecases
+from peer_oracle_vcn import commands, config, usecases
 
 
 def main():

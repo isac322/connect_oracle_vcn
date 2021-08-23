@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "connect_oracle_vcn"
+name = "peer_oracle_vcn"
 version = "0.1.0"
 description = ""
 authors = ["Byeonghoon Yoo <bh322yoo@gmail.com>"]
@@ -17,7 +17,7 @@ python-dotenv = "^0.19.0"
 pytest = "^6.2.4"
 
 [tool.poetry.scripts]
-connect_oracle_vcn = 'connect_oracle_vcn:main'
+peer_oracle_vcn = 'peer_oracle_vcn:main'
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

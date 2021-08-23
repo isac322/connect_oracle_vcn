@@ -1,6 +1,6 @@
 import pytest
 
-from connect_oracle_vcn import config
+from peer_oracle_vcn import config
 
 
 class TestConfig:

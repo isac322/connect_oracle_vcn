@@ -5,7 +5,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from connect_oracle_vcn import config
+from peer_oracle_vcn import config
 
 
 class Command(BaseModel, metaclass=ABCMeta):

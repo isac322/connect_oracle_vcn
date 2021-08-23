@@ -21,7 +21,7 @@ from oci.core.models import (
 from oci.identity import IdentityClient
 from oci.identity.models import CreatePolicyDetails, Group, Policy
 
-from connect_oracle_vcn import config
+from peer_oracle_vcn import config
 
 _log = logging.getLogger(__name__)
 

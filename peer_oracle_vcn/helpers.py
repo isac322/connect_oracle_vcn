@@ -7,7 +7,7 @@ from typing import Optional
 
 import oci
 
-from connect_oracle_vcn import repository, values
+from peer_oracle_vcn import repository, values
 
 _log = logging.getLogger(__name__)
 
@@ -76,7 +76,7 @@ def build_lpg_materials(
             _log.error(
                 'Failed to find VCN to connect LPG. '
                 f'Please specify VCN OCID via `{parameter_name}`. '
-                'You can list up all VCNs using `connect_oracle_vcn list_vcn`.'
+                'You can list up all VCNs using `peer_oracle_vcn list_vcn`.'
             )
             return None
         return vcns[0].id
@@ -87,7 +87,7 @@ def build_lpg_materials(
             _log.error(
                 'Failed to find Group to apply policy. '
                 f'Please specify Group OCID via `{parameter_name}`. '
-                'You can list up all Groups using `connect_oracle_vcn list_group`.'
+                'You can list up all Groups using `peer_oracle_vcn list_group`.'
             )
             return None
         return groups[0].id
@@ -98,7 +98,7 @@ def build_lpg_materials(
             _log.error(
                 'Failed to find Route Table to add LPG. '
                 f'Please specify Route Table via `{parameter_name}`. '
-                'You can list up all Route Table using `connect_oracle_vcn list_route_table`.'
+                'You can list up all Route Table using `peer_oracle_vcn list_route_table`.'
             )
             return None
         return route_tables[0].id

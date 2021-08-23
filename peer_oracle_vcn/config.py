@@ -9,7 +9,7 @@ from typing import Any
 
 from oci import config
 
-from connect_oracle_vcn import commands
+from peer_oracle_vcn import commands
 
 OCI_CONFIG = Mapping[str, Any]
 

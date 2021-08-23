@@ -5,8 +5,8 @@ import time
 
 import oci.exceptions
 
-from connect_oracle_vcn import commands, helpers
-from connect_oracle_vcn.repository import OCIRepository
+from peer_oracle_vcn import commands, helpers
+from peer_oracle_vcn.repository import OCIRepository
 
 _log = logging.getLogger(__name__)
 
