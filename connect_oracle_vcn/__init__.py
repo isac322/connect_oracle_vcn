@@ -15,10 +15,10 @@ def main():
 
     cmd = config.load_command()
 
-    if isinstance(cmd, commands.PeerInterTenancies):
-        usecases.peer_inter_tenancies(cmd)
-    elif isinstance(cmd, commands.PeerWithinTenant):
-        usecases.peer_within_tenant(cmd)
+    if isinstance(cmd, commands.CreateLPGInterTenant):
+        usecases.create_lpg_inter_tenant(cmd)
+    elif isinstance(cmd, commands.CreateLPGIntraTenant):
+        usecases.create_lpg_intra_tenant(cmd)
     elif isinstance(cmd, commands.ListVCNs):
         usecases.list_vcns(cmd)
     elif isinstance(cmd, commands.ListGroups):

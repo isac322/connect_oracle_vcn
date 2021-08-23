@@ -13,7 +13,7 @@ class Command(BaseModel, metaclass=ABCMeta):
         frozen = True
 
 
-class PeerWithinTenant(Command):
+class CreateLPGIntraTenant(Command):
     oci_config: config.OCI_CONFIG
     requestor_vcn: Optional[str] = ...
     acceptor_vcn: Optional[str] = ...
@@ -24,7 +24,7 @@ class PeerWithinTenant(Command):
     acceptor_cidr: str
 
 
-class PeerInterTenancies(Command):
+class CreateLPGInterTenant(Command):
     requestor_oci_config: config.OCI_CONFIG
     acceptor_oci_config: config.OCI_CONFIG
     requestor_vcn: Optional[str] = ...

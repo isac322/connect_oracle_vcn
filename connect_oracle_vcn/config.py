@@ -15,8 +15,8 @@ OCI_CONFIG = Mapping[str, Any]
 
 
 class SubCommand(str, Enum):
-    INTER_TENANCIES = 'inter_tenant'
-    INTRA_TENANT = 'intra_tenant'
+    LPG_INTER_TENANCIES = 'lpg_inter_tenant'
+    LPG_INTRA_TENANT = 'lpg_intra_tenant'
     LIST_GROUP = 'list_group'
     LIST_VCN = 'list_vcn'
     LIST_ROUTE_TABLE = 'list_route_table'
@@ -27,24 +27,24 @@ def _get_arg_parser() -> argparse.ArgumentParser:
 
     sub_cmd = parser.add_subparsers(title='Sub Command', dest='cmd', required=True)
 
-    same_tenancy = sub_cmd.add_parser(SubCommand.INTRA_TENANT)
-    _add_common_arguments(same_tenancy)
-    _add_common_connect_arguments(same_tenancy)
-    same_tenancy.add_argument(
+    lpg_intra_tenant = sub_cmd.add_parser(SubCommand.LPG_INTRA_TENANT)
+    _add_common_arguments(lpg_intra_tenant)
+    _add_common_connect_arguments(lpg_intra_tenant)
+    lpg_intra_tenant.add_argument(
         '--profile',
         type=str,
         default=config.DEFAULT_PROFILE,
     )
 
-    diff_tenancies = sub_cmd.add_parser(SubCommand.INTER_TENANCIES)
-    _add_common_arguments(diff_tenancies)
-    _add_common_connect_arguments(diff_tenancies)
-    diff_tenancies.add_argument(
+    lpg_inter_tenant = sub_cmd.add_parser(SubCommand.LPG_INTER_TENANCIES)
+    _add_common_arguments(lpg_inter_tenant)
+    _add_common_connect_arguments(lpg_inter_tenant)
+    lpg_inter_tenant.add_argument(
         '--requestor-profile',
         type=str,
         required=True,
     )
-    diff_tenancies.add_argument(
+    lpg_inter_tenant.add_argument(
         '--acceptor-profile',
         type=str,
         required=True,
@@ -159,8 +159,8 @@ def load_command() -> commands.Command:
     parser = _get_arg_parser()
     args = parser.parse_args()
 
-    if args.cmd == SubCommand.INTRA_TENANT:
-        return commands.PeerWithinTenant(
+    if args.cmd == SubCommand.LPG_INTRA_TENANT:
+        return commands.CreateLPGIntraTenant(
             oci_config=config.from_file(
                 file_location=args.api_config_file,
                 profile_name=args.profile,
@@ -173,8 +173,8 @@ def load_command() -> commands.Command:
             requestor_cidr=args.requestor_cidr,
             acceptor_cidr=args.acceptor_cidr,
         )
-    elif args.cmd == SubCommand.INTER_TENANCIES:
-        return commands.PeerInterTenancies(
+    elif args.cmd == SubCommand.LPG_INTER_TENANCIES:
+        return commands.CreateLPGInterTenant(
             requestor_oci_config=config.from_file(
                 file_location=args.api_config_file,
                 profile_name=args.requestor_profile,

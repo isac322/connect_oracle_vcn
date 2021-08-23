@@ -11,11 +11,11 @@ from connect_oracle_vcn.repository import OCIRepository
 _log = logging.getLogger(__name__)
 
 
-def peer_within_tenant(cmd: commands.PeerWithinTenant) -> None:
+def create_lpg_intra_tenant(cmd: commands.CreateLPGIntraTenant) -> None:
     pass
 
 
-def peer_inter_tenancies(cmd: commands.PeerInterTenancies) -> None:
+def create_lpg_inter_tenant(cmd: commands.CreateLPGInterTenant) -> None:
     req_config = cmd.requestor_oci_config
     act_config = cmd.acceptor_oci_config
 
