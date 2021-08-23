@@ -16,8 +16,9 @@ jobs:
       - name: Get app version
         id: app_version
         run: |
-          pip install -q poetry
-          VERSION=$(poetry show oci --tree | awk 'NR==1 {print $2}')
+          pip install -q pkginfo build
+          python -m build --wheel .
+          VERSION=$(pkginfo dist/*.whl -f version --single)
           echo $VERSION
           echo "::set-output name=version::${VERSION}"
   docker:
