@@ -92,7 +92,7 @@ optional arguments:
 
 ## How to run
 
-`docker run -v <your_oci_key_path>:/oci:ro -ti isac322/peer_oracle_vcn lpg_inter_tenant --api-config-file /oci/config --requestor-profile profile1 --acceptor-profile profile2`
+`docker run -v <your_oci_key_path>:/root/.oci:ro -ti isac322/peer_oracle_vcn lpg_inter_tenant --requestor-profile profile1 --acceptor-profile profile2`
 
 Will peer VCN of tenant `profile1` with VCN of tenant `profile2`. It will automatically find main VCN and main Route Table using each OCI API Profile.
 If there are multiple VCN or Route Table, you have to manually set OCID using sub-command arguments.
