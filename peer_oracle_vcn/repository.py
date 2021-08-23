@@ -148,18 +148,11 @@ class OCIRepository(ContextManager):
         return self._network_client.list_route_tables(compartment_id=self.compartment_id, vcn_id=vcn_ocid).data
 
     def cleanup_all_resources(self) -> None:
-        for lpg_id in tuple(self._created_lpgs):
-            try:
-                self.delete_lpg(lpg_id)
-            except oci.exceptions.ServiceError as e:
-                _log.warning(f'Failed to delete LPG. {e.args[0]}')
+        self.cleanup_route_rules()
+        self.cleanup_lpgs()
+        self.cleanup_policies()
 
-        for policy_id in tuple(self._created_policies):
-            try:
-                self.delete_policy(policy_id)
-            except oci.exceptions.ServiceError as e:
-                _log.warning(f'Failed to delete Policy. {e.args[0]}')
-
+    def cleanup_route_rules(self):
         if len(self._added_route_rules) != 0:
             for table_id, rules in tuple(self._added_route_rules.items()):
                 route_table = self.get_route_table(route_table_ocid=table_id)
@@ -174,3 +167,17 @@ class OCIRepository(ContextManager):
                     _log.warning(f'Failed to Route Rules. {e.args[0]}')
                 else:
                     del self._added_route_rules[table_id]
+
+    def cleanup_lpgs(self) -> None:
+        for lpg_id in tuple(self._created_lpgs):
+            try:
+                self.delete_lpg(lpg_id)
+            except oci.exceptions.ServiceError as e:
+                _log.warning(f'Failed to delete LPG. {e.args[0]}')
+
+    def cleanup_policies(self):
+        for policy_id in tuple(self._created_policies):
+            try:
+                self.delete_policy(policy_id)
+            except oci.exceptions.ServiceError as e:
+                _log.warning(f'Failed to delete Policy. {e.args[0]}')

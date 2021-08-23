@@ -96,6 +96,8 @@ def create_lpg_inter_tenant(cmd: commands.CreateLPGInterTenant) -> None:
             requestor_group=cmd.requestor_group,
             requestor_route_table=cmd.requestor_route_table,
             acceptor_route_table=cmd.acceptor_route_table,
+            requestor_cidr=cmd.requestor_cidr,
+            acceptor_cidr=cmd.acceptor_cidr,
         )
         if lpg_material is None:
             return
@@ -158,18 +160,17 @@ def create_lpg_inter_tenant(cmd: commands.CreateLPGInterTenant) -> None:
             )
 
         with helpers.wrap_with_log('adding LPG route rule to requestor\'s Route Table'):
-
             req_repo.add_lpg_to_route_table(
                 route_table_ocid=lpg_material.requestor_route_table,
                 lpg_ocid=requestor_lpg.id,
-                peer_cidr=cmd.acceptor_cidr,
+                peer_cidr=lpg_material.acceptor_cidr,
             )
 
         with helpers.wrap_with_log('adding LPG route rule to acceptor\'s Route Table'):
             act_repo.add_lpg_to_route_table(
                 route_table_ocid=lpg_material.acceptor_route_table,
                 lpg_ocid=acceptor_lpg.id,
-                peer_cidr=cmd.requestor_cidr,
+                peer_cidr=lpg_material.requestor_cidr,
             )
 
 

@@ -173,13 +173,13 @@ def _add_args_to_inter_tenant_lpg(parser: argparse.ArgumentParser) -> None:
         '--requestor-cidr',
         help='CIDR of requestor to add acceptor\'s Route Table',
         type=str,
-        required=True,
+        default=None,
     )
     parser.add_argument(
         '--acceptor-cidr',
         help='CIDR of acceptor to add requestor\'s Route Table',
         type=str,
-        required=True,
+        default=None,
     )
     parser.add_argument(
         '--requestor-profile',
