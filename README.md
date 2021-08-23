@@ -15,9 +15,11 @@ It will automate peering two VCN using Python SDK.
 
 You have to add Oracle API Key. please follow [Official Instruction](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#Required_Keys_and_OCIDs)
 
+[한글 문서](https://velog.io/@isac322/%EC%98%A4%EB%9D%BC%ED%81%B4-%ED%81%B4%EB%9D%BC%EC%9A%B0%EB%93%9C%EC%97%90%EC%84%9C-%EA%B3%84%EC%A0%95%EA%B0%84-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-%EA%B3%B5%EC%9C%A0-%EC%9E%90%EB%8F%99%ED%99%94)
+
 ## Tag format
 
-`isac322/peer_oracle_vcn:<oci_version>`
+`isac322/peer_oracle_vcn:<app_version>`
 
 ## Command
 
