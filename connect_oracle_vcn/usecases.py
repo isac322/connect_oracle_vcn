@@ -12,7 +12,75 @@ _log = logging.getLogger(__name__)
 
 
 def create_lpg_intra_tenant(cmd: commands.CreateLPGIntraTenant) -> None:
-    pass
+    with OCIRepository(oci_config=cmd.oci_config) as repo:
+        req_vcn = repo.get_vcn(vcn_ocid=cmd.requestor_vcn)
+        act_vcn = repo.get_vcn(vcn_ocid=cmd.acceptor_vcn)
+
+        # create policies to peer
+        with helpers.wrap_with_log(f'creating Policy on requestor ({req_vcn.display_name})'):
+            _ = repo.create_policy(
+                name=f'request_lpg_to_vcn_{act_vcn.display_name}',
+                description=f'request_lpg_to_vcn_{act_vcn.display_name}',
+                statements=(
+                    f'Allow group id {cmd.requestor_group} to manage local-peering-from '
+                    f'in compartment id {repo.compartment_id}'
+                ),
+            )
+
+        with helpers.wrap_with_log(f'creating Policy on acceptor ({act_vcn.display_name})'):
+            _ = repo.create_policy(
+                name=f'accept_lpg_of_vcn_{req_vcn.display_name}',
+                description=f'accept_lpg_of_vcn_{req_vcn.display_name}',
+                statements=(
+                    f'Allow group id {cmd.requestor_group} to manage local-peering-to in compartment id {repo.compartment_id}',
+                    f'Allow group id {cmd.requestor_group} to inspect vcns in compartment id {repo.compartment_id}',
+                    f'Allow group id {cmd.requestor_group} to inspect local-peering-gateways in compartment id {repo.compartment_id}',
+                ),
+            )
+
+        with helpers.wrap_with_log(f'creating LPG on requestor ({req_vcn.display_name})'):
+            requestor_lpg = repo.create_lpg(
+                vcn_ocid=cmd.requestor_vcn,
+                lpg_name=f'{req_vcn.display_name}_to_{act_vcn.display_name}',
+            )
+
+        with helpers.wrap_with_log(f'creating LPG on acceptor ({act_vcn.display_name})'):
+            acceptor_lpg = repo.create_lpg(
+                vcn_ocid=cmd.acceptor_vcn,
+                lpg_name=f'{act_vcn.display_name}_to_{req_vcn.display_name}',
+            )
+
+        _log.info('Waiting to acceptor\' LPG is accessible from requestor...')
+        while True:
+            try:
+                repo.get_lpg(lpg_ocid=acceptor_lpg.id)
+            except oci.exceptions.ServiceError as e:
+                if e.code != 'NotAuthorizedOrNotFound':
+                    _log.error(f'Requestor failed to fetch acceptor\'s LPG info. {e.args[0]}')
+                    raise e
+            else:
+                time.sleep(1)
+                break
+
+        with helpers.wrap_with_log('connecting two LPGs'):
+            repo.connect_lpg_to(
+                requestor_lpg_ocid=requestor_lpg.id,
+                acceptor_lpg_ocid=acceptor_lpg.id,
+            )
+
+        with helpers.wrap_with_log('adding LPG route rule to requestor\'s Route Table'):
+            repo.add_lpg_to_route_table(
+                route_table_ocid=cmd.requestor_route_table,
+                lpg_ocid=requestor_lpg.id,
+                peer_cidr=cmd.acceptor_cidr,
+            )
+
+        with helpers.wrap_with_log('adding LPG route rule to acceptor\'s Route Table'):
+            repo.add_lpg_to_route_table(
+                route_table_ocid=cmd.acceptor_route_table,
+                lpg_ocid=acceptor_lpg.id,
+                peer_cidr=cmd.requestor_cidr,
+            )
 
 
 def create_lpg_inter_tenant(cmd: commands.CreateLPGInterTenant) -> None:

@@ -29,26 +29,11 @@ def _get_arg_parser() -> argparse.ArgumentParser:
 
     lpg_intra_tenant = sub_cmd.add_parser(SubCommand.LPG_INTRA_TENANT)
     _add_common_arguments(lpg_intra_tenant)
-    _add_common_connect_arguments(lpg_intra_tenant)
-    lpg_intra_tenant.add_argument(
-        '--profile',
-        type=str,
-        default=config.DEFAULT_PROFILE,
-    )
+    _add_args_to_intra_tenant_lpg(lpg_intra_tenant)
 
     lpg_inter_tenant = sub_cmd.add_parser(SubCommand.LPG_INTER_TENANCIES)
     _add_common_arguments(lpg_inter_tenant)
-    _add_common_connect_arguments(lpg_inter_tenant)
-    lpg_inter_tenant.add_argument(
-        '--requestor-profile',
-        type=str,
-        required=True,
-    )
-    lpg_inter_tenant.add_argument(
-        '--acceptor-profile',
-        type=str,
-        required=True,
-    )
+    _add_args_to_inter_tenant_lpg(lpg_inter_tenant)
 
     list_vcn = sub_cmd.add_parser(SubCommand.LIST_VCN)
     _add_common_arguments(list_vcn)
@@ -103,7 +88,57 @@ def _add_common_arguments(parser: argparse.ArgumentParser) -> None:
     )
 
 
-def _add_common_connect_arguments(parser: argparse.ArgumentParser) -> None:
+def _add_args_to_intra_tenant_lpg(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        '--profile',
+        type=str,
+        default=config.DEFAULT_PROFILE,
+    )
+    parser.add_argument(
+        '--requestor-vcn-ocid',
+        help='VCN OCID of requestor',
+        type=str,
+        required=True,
+    )
+    parser.add_argument(
+        '--acceptor-vcn-ocid',
+        help='VCN OCID of acceptor',
+        type=str,
+        required=True,
+    )
+    parser.add_argument(
+        '--requestor-group-ocid',
+        help='Group OCID of requestor',
+        type=str,
+        required=True,
+    )
+    parser.add_argument(
+        '--requestor-route-table-ocid',
+        help='Route Table OCID of requestor to register LGP',
+        type=str,
+        required=True,
+    )
+    parser.add_argument(
+        '--acceptor-route-table-ocid',
+        help='Route Table OCID of acceptor to register LGP',
+        type=str,
+        required=True,
+    )
+    parser.add_argument(
+        '--requestor-cidr',
+        help='CIDR of requestor to add acceptor\'s Route Table',
+        type=str,
+        required=True,
+    )
+    parser.add_argument(
+        '--acceptor-cidr',
+        help='CIDR of acceptor to add requestor\'s Route Table',
+        type=str,
+        required=True,
+    )
+
+
+def _add_args_to_inter_tenant_lpg(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         '--requestor-vcn-ocid',
         help='VCN OCID of requestor',
@@ -143,6 +178,16 @@ def _add_common_connect_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         '--acceptor-cidr',
         help='CIDR of acceptor to add requestor\'s Route Table',
+        type=str,
+        required=True,
+    )
+    parser.add_argument(
+        '--requestor-profile',
+        type=str,
+        required=True,
+    )
+    parser.add_argument(
+        '--acceptor-profile',
         type=str,
         required=True,
     )

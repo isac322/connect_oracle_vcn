@@ -108,6 +108,9 @@ class OCIRepository(ContextManager):
             connect_local_peering_gateways_details=ConnectLocalPeeringGatewaysDetails(peer_id=acceptor_lpg_ocid),
         )
 
+    def get_vcn(self, vcn_ocid: str) -> Vcn:
+        return self._network_client.get_vcn(vcn_id=vcn_ocid).data
+
     def list_vcns(self) -> Sequence[Vcn]:
         return self._network_client.list_vcns(compartment_id=self.compartment_id).data
 

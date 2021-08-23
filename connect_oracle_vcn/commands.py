@@ -15,11 +15,11 @@ class Command(BaseModel, metaclass=ABCMeta):
 
 class CreateLPGIntraTenant(Command):
     oci_config: config.OCI_CONFIG
-    requestor_vcn: Optional[str] = ...
-    acceptor_vcn: Optional[str] = ...
-    requestor_group: Optional[str] = ...
-    requestor_route_table: Optional[str] = ...
-    acceptor_route_table: Optional[str] = ...
+    requestor_vcn: str
+    acceptor_vcn: str
+    requestor_group: str
+    requestor_route_table: str
+    acceptor_route_table: str
     requestor_cidr: str
     acceptor_cidr: str
 
