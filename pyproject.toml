@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "peer_oracle_vcn"
-version = "0.1.0"
+version = "0.2.0"
 description = ""
 authors = ["Byeonghoon Yoo <bh322yoo@gmail.com>"]
 license = "MIT"
