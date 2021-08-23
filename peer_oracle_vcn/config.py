@@ -27,15 +27,15 @@ def _get_arg_parser() -> argparse.ArgumentParser:
 
     sub_cmd = parser.add_subparsers(title='Sub Command', dest='cmd', required=True)
 
-    lpg_intra_tenant = sub_cmd.add_parser(SubCommand.LPG_INTRA_TENANT)
+    lpg_intra_tenant = sub_cmd.add_parser(SubCommand.LPG_INTRA_TENANT.value)
     _add_common_arguments(lpg_intra_tenant)
     _add_args_to_intra_tenant_lpg(lpg_intra_tenant)
 
-    lpg_inter_tenant = sub_cmd.add_parser(SubCommand.LPG_INTER_TENANCIES)
+    lpg_inter_tenant = sub_cmd.add_parser(SubCommand.LPG_INTER_TENANCIES.value)
     _add_common_arguments(lpg_inter_tenant)
     _add_args_to_inter_tenant_lpg(lpg_inter_tenant)
 
-    list_vcn = sub_cmd.add_parser(SubCommand.LIST_VCN)
+    list_vcn = sub_cmd.add_parser(SubCommand.LIST_VCN.value)
     _add_common_arguments(list_vcn)
     list_vcn.add_argument(
         '--profile',
@@ -43,7 +43,7 @@ def _get_arg_parser() -> argparse.ArgumentParser:
         default=config.DEFAULT_PROFILE,
     )
 
-    list_group = sub_cmd.add_parser(SubCommand.LIST_GROUP)
+    list_group = sub_cmd.add_parser(SubCommand.LIST_GROUP.value)
     _add_common_arguments(list_group)
     list_group.add_argument(
         '--profile',
@@ -51,7 +51,7 @@ def _get_arg_parser() -> argparse.ArgumentParser:
         default=config.DEFAULT_PROFILE,
     )
 
-    list_route_table = sub_cmd.add_parser(SubCommand.LIST_ROUTE_TABLE)
+    list_route_table = sub_cmd.add_parser(SubCommand.LIST_ROUTE_TABLE.value)
     _add_common_arguments(list_route_table)
     list_route_table.add_argument(
         '--profile',
